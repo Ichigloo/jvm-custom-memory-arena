@@ -11,6 +11,7 @@ public class Main {
         testCharSupport();
         testBooleanSupport();
         testArrayStore();
+        testVectorStore();
     }
 
     static void testBasicAllocation() {
@@ -353,6 +354,47 @@ public class Main {
         System.out.println("  Header (length): address " + arrayAddr + " (4 bytes)");
         System.out.println("  Data start: address " + (arrayAddr + 4) + " (20 bytes for 5 ints)");
         System.out.println("  Total size: " + (4 + 5 * 4) + " bytes");
+        System.out.println();
+    }
+
+    static void testVectorStore() {
+        System.out.println("Test 11: Dynamic Arrays (Vector)");
+        MemoryArena arena = new MemoryArena(512);
+        VectorStore vectorStore = new VectorStore(arena);
+        
+        System.out.println("Creating vector with initial capacity 2:");
+        int vectorAddr = vectorStore.createVector(2);
+        System.out.println("  Vector address: " + vectorAddr);
+        System.out.println("  Initial length: " + vectorStore.getLength(vectorAddr));
+        System.out.println("  Initial capacity: " + vectorStore.getCapacity(vectorAddr));
+        System.out.println("  Data pointer: " + vectorStore.getDataPtr(vectorAddr));
+        
+        System.out.println("\nAppending elements:");
+        for (int i = 1; i <= 5; i++) {
+            vectorStore.append(vectorAddr, i * 10);
+            System.out.println("  After appending " + (i * 10) + ":");
+            System.out.println("    Length: " + vectorStore.getLength(vectorAddr));
+            System.out.println("    Capacity: " + vectorStore.getCapacity(vectorAddr));
+        }
+        
+        System.out.println("\nVector contents:");
+        vectorStore.printVector(vectorAddr);
+        
+        System.out.println("\nAccessing elements by index:");
+        for (int i = 0; i < vectorStore.getLength(vectorAddr); i++) {
+            System.out.println("  vector[" + i + "] = " + vectorStore.get(vectorAddr, i));
+        }
+        
+        System.out.println("\nModifying element at index 2:");
+        vectorStore.set(vectorAddr, 2, 999);
+        System.out.println("  vector[2] = " + vectorStore.get(vectorAddr, 2));
+        vectorStore.printVector(vectorAddr);
+        
+        System.out.println("\nTesting growth behavior:");
+        System.out.println("  Vector grows when length >= capacity");
+        System.out.println("  Growth factor: 1.5x");
+        System.out.println("  Old data is copied to new location");
+        System.out.println("  Old space remains allocated (bump allocator limitation)");
         System.out.println();
     }
 }

@@ -56,11 +56,11 @@
 - [x] Add bounds checking
 
 ### 3.2 Implement Dynamic Arrays (Vector-like)
-- [ ] Define vector layout: [length][capacity][data pointer]
-- [ ] Implement createVector(int initialCapacity)
-- [ ] Implement append() method
-- [ ] Implement grow() method
-- [ ] Handle reallocation
+- [x] Define vector layout: [length][capacity][data pointer]
+- [x] Implement createVector(int initialCapacity)
+- [x] Implement append() method
+- [x] Implement grow() method
+- [x] Handle reallocation
 
 ### 3.3 Implement String Storage
 - [ ] Define string layout: [length][char data]
