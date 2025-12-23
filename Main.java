@@ -10,6 +10,7 @@ public class Main {
         testShortSupport();
         testCharSupport();
         testBooleanSupport();
+        testArrayStore();
     }
 
     static void testBasicAllocation() {
@@ -312,6 +313,46 @@ public class Main {
         System.out.println("\nTesting representation:");
         System.out.println("  true stored as: " + (arena.memory[addr1] & 0xFF));
         System.out.println("  false stored as: " + (arena.memory[addr2] & 0xFF));
+        System.out.println();
+    }
+
+    static void testArrayStore() {
+        System.out.println("Test 10: Fixed-Size Arrays");
+        MemoryArena arena = new MemoryArena(256);
+        ArrayStore arrayStore = new ArrayStore(arena);
+        
+        System.out.println("Creating int array of length 5:");
+        int arrayAddr = arrayStore.createArray(5, 4);
+        System.out.println("  Array address: " + arrayAddr);
+        System.out.println("  Array length: " + arrayStore.getLength(arrayAddr));
+        System.out.println("  Element size: " + arrayStore.getElementSize(arrayAddr) + " bytes");
+        
+        System.out.println("\nSetting array elements:");
+        for (int i = 0; i < 5; i++) {
+            arrayStore.setInt(arrayAddr, i, (i + 1) * 10);
+            System.out.println("  array[" + i + "] = " + arrayStore.getInt(arrayAddr, i));
+        }
+        
+        System.out.println("\nArray contents:");
+        arrayStore.printArray(arrayAddr);
+        
+        System.out.println("\nTesting bounds checking:");
+        try {
+            arrayStore.getInt(arrayAddr, -1);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("  Caught: " + e.getMessage());
+        }
+        
+        try {
+            arrayStore.getInt(arrayAddr, 10);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("  Caught: " + e.getMessage());
+        }
+        
+        System.out.println("\nMemory layout:");
+        System.out.println("  Header (length): address " + arrayAddr + " (4 bytes)");
+        System.out.println("  Data start: address " + (arrayAddr + 4) + " (20 bytes for 5 ints)");
+        System.out.println("  Total size: " + (4 + 5 * 4) + " bytes");
         System.out.println();
     }
 }

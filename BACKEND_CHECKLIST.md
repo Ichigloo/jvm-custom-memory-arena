@@ -49,11 +49,11 @@
 ## Phase 3: Structured Data Types
 
 ### 3.1 Implement Fixed-Size Arrays
-- [ ] Create ArrayStore.java
-- [ ] Define array layout: [length][data]
-- [ ] Implement createArray(int length, int elementSize)
-- [ ] Implement getElement() and setElement()
-- [ ] Add bounds checking
+- [x] Create ArrayStore.java
+- [x] Define array layout: [length][data]
+- [x] Implement createArray(int length, int elementSize)
+- [x] Implement getElement() and setElement()
+- [x] Add bounds checking
 
 ### 3.2 Implement Dynamic Arrays (Vector-like)
 - [ ] Define vector layout: [length][capacity][data pointer]
